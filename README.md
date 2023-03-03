@@ -7,6 +7,13 @@ SPDX-License-Identifier: CC0-1.0
 
 A user-friendly PDF generator written in pure Rust.
 
+This is a fork whose only current purpose is to make underlined text possible,
+in a very hackish way, in conjunction with my also hackishly forked version of
+printpdf. The underlining honestly kind of gross, and relies on text being in a
+monospace font. You should probably turn back and use
+[fschutt's version](https://github.com/fschutt/printpdf) instead.
+
+
 [Documentation](https://docs.rs/genpdf)
 
 `genpdf` is a high-level PDF generator built on top of [`printpdf`][] and

@@ -87,6 +87,8 @@ pub enum Effect {
     Bold,
     /// Italic text.
     Italic,
+    /// Underlined text.
+    Underlined,
 }
 
 /// A style annotation for a string.
@@ -113,6 +115,7 @@ pub struct Style {
     color: Option<Color>,
     is_bold: bool,
     is_italic: bool,
+    is_underlined: bool,
 }
 
 impl Style {
@@ -138,6 +141,9 @@ impl Style {
         }
         if style.is_italic {
             self.is_italic = true;
+        }
+        if style.is_underlined {
+            self.is_underlined = true;
         }
     }
 
@@ -165,6 +171,11 @@ impl Style {
     /// Returns whether the italic text effect is set.
     pub fn is_italic(&self) -> bool {
         self.is_italic
+    }
+
+    /// Returns whether the underlined text effect is set.
+    pub fn is_underlined(&self) -> bool {
+        self.is_underlined
     }
 
     /// Returns the font size for this style in points, or 12 if no font size is set.
@@ -196,6 +207,17 @@ impl Style {
     /// Sets the italic effect for this style and returns it.
     pub fn italic(mut self) -> Style {
         self.set_italic();
+        self
+    }
+
+    /// Sets the underlined effect for this style.
+    pub fn set_underlined(&mut self) {
+        self.is_underlined = true;
+    }
+
+    /// Sets the underlined effect for this style and returns it.
+    pub fn underlined(mut self) -> Style {
+        self.set_underlined();
         self
     }
 
@@ -310,6 +332,7 @@ impl From<Effect> for Style {
         match effect {
             Effect::Bold => style.bold(),
             Effect::Italic => style.italic(),
+            Effect::Underlined => style.underlined(),
         }
     }
 }

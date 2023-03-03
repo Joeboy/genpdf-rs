@@ -25,7 +25,7 @@ version = "0.8"
 optional = true
 
 [dependencies.printpdf]
-version = "0.3.3"
+git = "https://github.com/Joeboy/printpdf.git"
 default-features = false
 
 [dependencies.derive_more]

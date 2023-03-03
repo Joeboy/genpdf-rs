@@ -335,7 +335,7 @@ impl<'a> Area<'a> {
         s: S,
     ) -> Result<bool, Error> {
         if let Ok(mut section) = self.text_section(font_cache, position, style) {
-            section.print_str(s, style)?;
+            section.print_str(s, style, 0)?;  // start_position argument is a bodge to make it compile, not sure if this is ever called?
             Ok(true)
         } else {
             Ok(false)
@@ -424,7 +424,7 @@ impl<'a, 'f, 'l> TextSection<'a, 'f, 'l> {
     /// Prints the given string with the given style.
     ///
     /// The font cache for this text section must contain the PDF font for the given style.
-    pub fn print_str(&mut self, s: impl AsRef<str>, style: Style) -> Result<(), Error> {
+    pub fn print_str(&mut self, s: impl AsRef<str>, style: Style, start_position: usize) -> Result<(), Error> {
         let font = style.font(self.font_cache);
         if font.is_builtin() {
             // Built-in fonts always use the Windows-1252 encoding.  The conversion is done by
@@ -444,7 +444,7 @@ impl<'a, 'f, 'l> TextSection<'a, 'f, 'l> {
         }
         self.fill_color = style.color();
         self.layer().set_font(font, style.font_size().into());
-        self.layer().write_text(s.as_ref(), font);
+        self.layer().write_text(s.as_ref(), font, start_position, style.is_underlined());
         Ok(())
     }
 

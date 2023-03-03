@@ -332,12 +332,21 @@ impl Element for Paragraph {
         let words = self.words.iter().map(Into::into);
         let mut rendered_len = 0;
         for (line, delta) in wrap::Wrapper::new(words, context, area.size().width) {
+            let mut start_pos = 0;
             let width = line.iter().map(|s| s.width(&context.font_cache)).sum();
             let position = Position::new(self.get_offset(width, area.size().width), 0);
             // TODO: calculate the maximum line height
             if let Ok(mut section) = area.text_section(&context.font_cache, position, style) {
                 for s in line {
-                    section.print_str(&s.s, s.style)?;
+                    section.print_str(&s.s, s.style, start_pos)?;
+
+                    if s.style.is_underlined() {
+                        // When (forked) printpdf prints underlined text,
+                        // the "origin" point gets reset:
+                        start_pos = 0;
+                    }
+                    start_pos += s.s.len();
+
                     rendered_len += s.s.len();
                 }
                 rendered_len -= delta;
