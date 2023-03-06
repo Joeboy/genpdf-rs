@@ -26,6 +26,7 @@ optional = true
 
 [dependencies.printpdf]
 git = "https://github.com/Joeboy/printpdf.git"
+rev = "9ca9b20"
 default-features = false
 
 [dependencies.derive_more]
